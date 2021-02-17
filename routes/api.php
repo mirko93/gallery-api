@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GalleriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// /my-galleries - /galleries
+Route::post('/galleries', [GalleriesController::class, 'store']);
+Route::patch('/galleries/{gallery}', [GalleriesController::class, 'update']);
+Route::delete('/galleries/{gallery}', [GalleriesController::class, 'destroy']);
