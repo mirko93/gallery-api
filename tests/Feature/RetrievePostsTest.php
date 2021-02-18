@@ -37,7 +37,7 @@ class RetrievePostsTest extends TestCase
                             'type' => 'posts',
                             'post_id' => $posts->first()->id,
                             'attributes' => [
-                                'title' => $posts->last()->title,
+                                'title' => $posts->first()->title,
                             ]
                         ]
                     ]
