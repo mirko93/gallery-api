@@ -16,7 +16,7 @@ class RetrievePostsTest extends TestCase
     public function a_user_can_be_retrieve_posts()
     {
         $this->actingAs($user = User::factory()->create(), 'api');
-        $posts = Post::factory(2)->create();
+        $posts = Post::factory(2)->create(['user_id' => $user->id]);
 
         $response = $this->get('/api/posts');
 
@@ -26,22 +26,39 @@ class RetrievePostsTest extends TestCase
                     [
                         'data' => [
                             'type' => 'posts',
-                            'post_id' => $posts->first()->id,
+                            'post_id' => $posts->last()->id,
                             'attributes' => [
-                                'title' => $posts->first()->title,
+                                'title' => $posts->last()->title,
                             ]
                         ]
                     ],
                     [
                         'data' => [
                             'type' => 'posts',
-                            'post_id' => $posts->last()->id,
+                            'post_id' => $posts->first()->id,
                             'attributes' => [
                                 'title' => $posts->last()->title,
                             ]
                         ]
                     ]
                 ],
+                'links' => [
+                    'self' => url('/posts')
+                ]
+            ]);
+    }
+
+    /** @test */
+    public function a_user_can_only_retrieve_their_posts()
+    {
+        $this->actingAs($user = User::factory()->create(), 'api');
+        $posts = Post::factory()->create();
+
+        $response = $this->get('/api/posts');
+
+        $response->assertStatus(200)
+            ->assertExactJson([
+                'data' => [],
                 'links' => [
                     'self' => url('/posts')
                 ]
