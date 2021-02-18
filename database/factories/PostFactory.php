@@ -25,6 +25,7 @@ class PostFactory extends Factory
         return [
             'user_id' => User::factory(),
             'title' => $this->faker->title,
+            'image' => 'image.jpg',
         ];
     }
 }

@@ -1976,6 +1976,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Post",
   props: ['post']
@@ -38034,59 +38040,64 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "jumbotron m-4" }, [
-      _c("h1", { staticClass: "display-8" }, [
-        _vm._v(_vm._s(_vm.post.data.attributes.title))
-      ]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c("hr", { staticClass: "my-4" }),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "d-flex" },
-        [
-          _c("p", [_vm._v("Author: ")]),
-          _vm._v(" "),
-          _c("router-link", { attrs: { to: "" } }, [
-            _vm._v(
-              "\n        " +
-                _vm._s(
-                  _vm.post.data.attributes.posted_by.data.attributes.firstname
-                ) +
-                " \n        " +
-                _vm._s(
-                  _vm.post.data.attributes.posted_by.data.attributes.lastname
-                ) +
-                "\n      "
-            )
+    _c(
+      "div",
+      { staticClass: "jumbotron m-4" },
+      [
+        _c("router-link", { attrs: { to: "" } }, [
+          _c("h1", { staticClass: "display-8" }, [
+            _vm._v(_vm._s(_vm.post.data.attributes.title))
           ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("p", [_vm._v("Time posted: 12 min")])
-    ])
+        ]),
+        _vm._v(" "),
+        _c("router-link", { attrs: { to: "" } }, [
+          _vm.post.data.attributes.image
+            ? _c("div", [
+                _c("img", {
+                  attrs: {
+                    src: _vm.post.data.attributes.image,
+                    width: "400",
+                    alt: ""
+                  }
+                })
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("hr", { staticClass: "my-4" }),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "d-flex" },
+          [
+            _c("p", [_vm._v("Author: ")]),
+            _vm._v(" "),
+            _c("router-link", { attrs: { to: "" } }, [
+              _vm._v(
+                "\n        " +
+                  _vm._s(
+                    _vm.post.data.attributes.posted_by.data.attributes.firstname
+                  ) +
+                  " \n        " +
+                  _vm._s(
+                    _vm.post.data.attributes.posted_by.data.attributes.lastname
+                  ) +
+                  "\n      "
+              )
+            ])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v("Time posted: " + _vm._s(_vm.post.data.attributes.posted_at))
+        ])
+      ],
+      1
+    )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("img", {
-        attrs: {
-          src:
-            "https://images.unsplash.com/photo-1612831455359-970e23a1e4e9?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=925&q=80",
-          width: "400",
-          alt: ""
-        }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
