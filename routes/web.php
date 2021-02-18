@@ -17,7 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [AppController::class, 'index'])->name('home');
+// Route::get('{any}', [AppController::class, 'index'])
+//     ->where('any', '.*')
+//     ->middleware('auth')
+//     ->name('home');
 
 Route::get('/logout-manual', function () {
     request()->session()->invalidate();
