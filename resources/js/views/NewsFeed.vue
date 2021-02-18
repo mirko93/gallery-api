@@ -2,7 +2,9 @@
   <div>
     <NewPost />
 
-    <Post v-for="post in posts.data" :post="post" :key="post.data.post_id" />
+    <p v-if="loading">Loading posts...</p>
+
+    <Post v-else v-for="post in posts.data" :post="post" :key="post.data.post_id" />
   </div>
 </template>
 
@@ -20,7 +22,8 @@ export default {
 
   data: () => {
     return {
-      posts: null,
+      posts: [],
+      loading: true,
     }
   },
 
@@ -31,6 +34,9 @@ export default {
       })
       .catch((err) => {
         console.log('Unable to fetch posts');
+      })
+      .finally(() => {
+        this.loading = false;
       });
   }
 };
