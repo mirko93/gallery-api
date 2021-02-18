@@ -21,7 +21,7 @@ class Post extends JsonResource
                 'post_id' => $this->id,
                 'attributes' => [
                     'posted_by' => new ResourceUser($this->user),
-                    'body' => $this->body,
+                    'title' => $this->title,
                 ]
             ],
             'links' => [

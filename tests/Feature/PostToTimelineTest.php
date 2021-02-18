@@ -23,7 +23,7 @@ class PostToTimelineTest extends TestCase
             'data' => [
                 'type' => 'posts',
                 'attributes' => [
-                    'body' => 'Testing Body',
+                    'title' => 'Testing Body',
                 ]
             ]
         ]);
@@ -32,7 +32,7 @@ class PostToTimelineTest extends TestCase
 
         $this->assertCount(1, Post::all());
         $this->assertEquals($user->id, $post->user_id);
-        $this->assertEquals('Testing Body', $post->body);
+        $this->assertEquals('Testing Body', $post->title);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -48,7 +48,7 @@ class PostToTimelineTest extends TestCase
                                 ]
                             ]
                         ],
-                        'body' => 'Testing Body'
+                        'title' => 'Testing Body'
                     ]
                 ],
                 'links' => [
