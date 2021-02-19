@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="jumbotron m-4">
-      <router-link to="">
+    <div class="m-4 jumbotron">
+      <router-link :to="'/posts/' + post.data.post_id">
         <h1 class="display-8">{{ post.data.attributes.title }}</h1>
       </router-link>
 
@@ -14,7 +14,7 @@
       <hr class="my-4" />
       <div class="d-flex">
         <p>Author: </p>
-        <router-link to="">
+        <router-link :to="'/users/' + post.data.attributes.posted_by.data.user_id">
           {{ post.data.attributes.posted_by.data.attributes.firstname }} 
           {{ post.data.attributes.posted_by.data.attributes.lastname }}
         </router-link>

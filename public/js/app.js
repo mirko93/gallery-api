@@ -1913,10 +1913,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Nav"
+  name: "Nav",
+  data: function data() {
+    return {
+      user: null
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/api/auth-user').then(function (result) {
+      _this.user = result.data;
+    })["catch"](function (err) {
+      console.log('Unable to fetch auth user');
+    });
+  }
 });
 
 /***/ }),
@@ -2052,16 +2064,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_Post__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Post */ "./resources/js/components/Post.vue");
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Show",
+  components: {
+    Post: _components_Post__WEBPACK_IMPORTED_MODULE_0__.default
+  },
   data: function data() {
     return {
       user: null,
-      loading: true
+      posts: null,
+      userLoading: true,
+      postLoading: true
     };
   },
   mounted: function mounted() {
@@ -2072,14 +2106,14 @@ __webpack_require__.r(__webpack_exports__);
     })["catch"](function (err) {
       console.log('Unable to fetch user');
     })["finally"](function () {
-      _this.loading = false;
+      _this.userLoading = false;
     });
-    axios.get('/api/posts/' + this.$route.params.userid).then(function (result) {
+    axios.get('/api/users/' + this.$route.params.userId + '/posts').then(function (result) {
       _this.posts = result.data;
     })["catch"](function (err) {
       console.log('Unable to fetch posts');
     })["finally"](function () {
-      _this.loading = false;
+      _this.postLoading = false;
     });
   }
 });
@@ -38005,7 +38039,7 @@ var render = function() {
     _c(
       "nav",
       {
-        staticClass: "navbar navbar-expand-md navbar-light bg-white shadow-sm"
+        staticClass: "bg-white shadow-sm navbar navbar-expand-md navbar-light"
       },
       [
         _c(
@@ -38025,38 +38059,25 @@ var render = function() {
                 attrs: { id: "navbarSupportedContent" }
               },
               [
-                _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+                _c("ul", { staticClass: "ml-auto navbar-nav" }, [
                   _vm._m(1),
                   _vm._v(" "),
                   _vm._m(2),
                   _vm._v(" "),
-                  _c("li", { staticClass: "nav-item dropdown" }, [
-                    _c(
-                      "a",
-                      {
-                        pre: true,
-                        attrs: {
-                          id: "navbarDropdown",
-                          class: "nav-link dropdown-toggle",
-                          href: "#",
-                          role: "button",
-                          "data-toggle": "dropdown",
-                          "aria-haspopup": "true",
-                          "aria-expanded": "false"
-                        }
-                      },
-                      [
-                        _c(
-                          "router-link",
-                          { pre: true, attrs: { to: "/author/1" } },
-                          [_vm._v("Mirko Skopljak")]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _vm._m(3)
-                  ])
+                  _c(
+                    "li",
+                    { staticClass: "nav-item dropdown" },
+                    [
+                      _c(
+                        "router-link",
+                        { attrs: { to: "/users/" + _vm.user.data.user_id } },
+                        [_vm._v("Mirko Skopljak")]
+                      ),
+                      _vm._v(" "),
+                      _vm._m(3)
+                    ],
+                    1
+                  )
                 ])
               ]
             )
@@ -38176,13 +38197,17 @@ var render = function() {
   return _c("div", [
     _c(
       "div",
-      { staticClass: "jumbotron m-4" },
+      { staticClass: "m-4 jumbotron" },
       [
-        _c("router-link", { attrs: { to: "" } }, [
-          _c("h1", { staticClass: "display-8" }, [
-            _vm._v(_vm._s(_vm.post.data.attributes.title))
-          ])
-        ]),
+        _c(
+          "router-link",
+          { attrs: { to: "/posts/" + _vm.post.data.post_id } },
+          [
+            _c("h1", { staticClass: "display-8" }, [
+              _vm._v(_vm._s(_vm.post.data.attributes.title))
+            ])
+          ]
+        ),
         _vm._v(" "),
         _c("router-link", { attrs: { to: "" } }, [
           _vm.post.data.attributes.image
@@ -38206,19 +38231,30 @@ var render = function() {
           [
             _c("p", [_vm._v("Author: ")]),
             _vm._v(" "),
-            _c("router-link", { attrs: { to: "" } }, [
-              _vm._v(
-                "\n        " +
-                  _vm._s(
-                    _vm.post.data.attributes.posted_by.data.attributes.firstname
-                  ) +
-                  " \n        " +
-                  _vm._s(
-                    _vm.post.data.attributes.posted_by.data.attributes.lastname
-                  ) +
-                  "\n      "
-              )
-            ])
+            _c(
+              "router-link",
+              {
+                attrs: {
+                  to:
+                    "/users/" + _vm.post.data.attributes.posted_by.data.user_id
+                }
+              },
+              [
+                _vm._v(
+                  "\n        " +
+                    _vm._s(
+                      _vm.post.data.attributes.posted_by.data.attributes
+                        .firstname
+                    ) +
+                    " \n        " +
+                    _vm._s(
+                      _vm.post.data.attributes.posted_by.data.attributes
+                        .lastname
+                    ) +
+                    "\n      "
+                )
+              ]
+            )
           ],
           1
         ),
@@ -38291,7 +38327,43 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "mt-4 text-center" }, [
+        _c("h1", [
+          _vm._v(
+            _vm._s(_vm.user.data.attributes.firstname) +
+              " " +
+              _vm._s(_vm.user.data.attributes.lastname)
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _vm.postLoading
+        ? _c("p", [_vm._v("Loading posts...")])
+        : _vm._l(_vm.posts.data, function(post) {
+            return _c("Post", { key: post.data.post_id, attrs: { post: post } })
+          }),
+      _vm._v(" "),
+      _c("div", [
+        !_vm.postLoading && _vm.posts.data.length < 1
+          ? _c(
+              "p",
+              { staticClass: "mt-4 text-center" },
+              [
+                _vm._v("\n          No posts found. \n          "),
+                _c("router-link", { attrs: { to: "/create" } }, [
+                  _vm._v("Create new post")
+                ])
+              ],
+              1
+            )
+          : _vm._e()
+      ])
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

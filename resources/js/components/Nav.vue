@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <nav class="bg-white shadow-sm navbar navbar-expand-md navbar-light">
             <div class="container">
                 <router-link to="/"><h1>Gallery App</h1></router-link>
                 
@@ -10,7 +10,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="ml-auto navbar-nav">
                       <!-- Authentication Links -->
                       <li class="nav-item">
                           <a class="nav-link" href="/login">Login</a>
@@ -21,9 +21,7 @@
                       </li>
 
                       <li class="nav-item dropdown">
-                          <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                              <router-link to="/author/1">Mirko Skopljak</router-link>
-                          </a>
+                        <router-link :to="'/users/' + user.data.user_id">Mirko Skopljak</router-link>
 
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                               <a class="dropdown-item" href="/logout">Logout</a>
@@ -39,6 +37,22 @@
 <script>
 export default {
     name: "Nav",
+
+    data: () => {
+        return {
+            user: null,
+        }
+    },
+
+    mounted() {
+        axios.get('/api/auth-user')
+            .then((result) => {
+                this.user = result.data;
+            })
+            .catch((err) => {
+                console.log('Unable to fetch auth user');
+            });
+    }
 }
 </script>
 
