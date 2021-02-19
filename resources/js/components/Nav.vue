@@ -21,7 +21,7 @@
                       </li>
 
                       <li class="nav-item dropdown">
-                        <router-link :to="'/users/' + user.data.user_id">Mirko Skopljak</router-link>
+                        <router-link :to="'/users/' + authUser.data.user_id">Mirko Skopljak</router-link>
 
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                               <a class="dropdown-item" href="/logout">Logout</a>
@@ -35,23 +35,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
     name: "Nav",
 
-    data: () => {
-        return {
-            user: null,
-        }
-    },
-
-    mounted() {
-        axios.get('/api/auth-user')
-            .then((result) => {
-                this.user = result.data;
-            })
-            .catch((err) => {
-                console.log('Unable to fetch auth user');
-            });
+    computed: {
+        ...mapGetters({
+            authUser: 'authUser'
+        })
     }
 }
 </script>

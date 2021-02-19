@@ -14,7 +14,7 @@ export default new VueRouter({
             component: NewsFeed,
             name: 'home',
             meta: {
-                title: 'News Feed'
+                title: 'All Gallery'
             }
         },
         {
@@ -22,7 +22,7 @@ export default new VueRouter({
             component: UserShow,
             name: 'user.show',
             meta: {
-                title: 'Profile'
+                title: 'Author'
             }
         },
     ]
