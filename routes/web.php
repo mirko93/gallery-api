@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\UserPostController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -17,10 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-// Route::get('{any}', [AppController::class, 'index'])
-//     ->where('any', '.*')
-//     ->middleware('auth')
-//     ->name('home');
+Route::get('{any}', [AppController::class, 'index'])
+    ->where('any', '.*')
+    ->middleware('auth')
+    ->name('home');
 
 Route::get('/logout-manual', function () {
     request()->session()->invalidate();

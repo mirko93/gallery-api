@@ -16,7 +16,9 @@ class RetrievePostsTest extends TestCase
     public function a_user_can_be_retrieve_posts()
     {
         $this->actingAs($user = User::factory()->create(), 'api');
-        $posts = Post::factory(2)->create(['user_id' => $user->id]);
+        $posts = Post::factory(2)->create([
+                'user_id' => $user->id
+            ]);
 
         $response = $this->get('/api/posts');
 
@@ -29,7 +31,7 @@ class RetrievePostsTest extends TestCase
                             'post_id' => $posts->last()->id,
                             'attributes' => [
                                 'title' => $posts->last()->title,
-                                'image' => $posts->last()->image,
+                                'image' => url($posts->last()->image),
                                 'posted_at' => $posts->last()->created_at->diffForHumans(),
                             ]
                         ]
@@ -40,7 +42,7 @@ class RetrievePostsTest extends TestCase
                             'post_id' => $posts->first()->id,
                             'attributes' => [
                                 'title' => $posts->first()->title,
-                                'image' => $posts->first()->image,
+                                'image' => url($posts->first()->image),
                                 'posted_at' => $posts->first()->created_at->diffForHumans(),
                             ]
                         ]

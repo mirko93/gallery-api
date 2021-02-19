@@ -22,7 +22,7 @@ class Post extends JsonResource
                 'attributes' => [
                     'posted_by' => new ResourceUser($this->user),
                     'title' => $this->title,
-                    'image' => $this->image,
+                    'image' => url($this->image),
                     'posted_at' => $this->created_at->diffForHumans(),
                 ]
             ],
