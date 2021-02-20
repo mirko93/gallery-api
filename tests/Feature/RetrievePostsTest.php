@@ -15,7 +15,11 @@ class RetrievePostsTest extends TestCase
     /** @test */
     public function a_user_can_be_retrieve_posts()
     {
+        $this->withoutExceptionHandling();
+                
         $this->actingAs($user = User::factory()->create(), 'api');
+        $anotherUser = User::factory()->create();
+
         $posts = Post::factory(2)->create([
                 'user_id' => $user->id
             ]);
@@ -57,6 +61,8 @@ class RetrievePostsTest extends TestCase
     /** @test */
     public function a_user_can_only_retrieve_their_posts()
     {
+        $this->withoutExceptionHandling();
+
         $this->actingAs($user = User::factory()->create(), 'api');
         $posts = Post::factory()->create();
 

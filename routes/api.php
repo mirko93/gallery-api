@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthUserController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserPostController;
 
 /*
@@ -29,5 +30,3 @@ Route::middleware('auth:api')->group(function () {
     ]);
     
 });
-
-

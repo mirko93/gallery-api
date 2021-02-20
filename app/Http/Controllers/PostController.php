@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Post as ResourcesPost;
-use App\Http\Resources\PostCollection;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\PostCollection;
+use App\Http\Resources\Post as ResourcePost;
 
 class PostController extends Controller
 {
@@ -22,6 +23,6 @@ class PostController extends Controller
 
         $post = request()->user()->posts()->create($data['data']['attributes']);
 
-        return new ResourcesPost($post);
+        return new ResourcePost($post);
     }
 }

@@ -4,12 +4,14 @@
         <h1>{{ user.data.attributes.firstname }} {{ user.data.attributes.lastname }}</h1>
     </div>
 
-    <p v-if="postLoading">Loading posts...</p>
+    <div v-if="postsStatus.posts === 'loading'">Loading posts...</div>
 
-    <Post v-else v-for="post in posts.data" :post="post" :key="post.data.post_id" />
+    <div v-else-if="posts.length < 1">No posts found. Get started</div>
+
+    <Post v-else v-for="post in posts.data" :key="post.data.post_id" :post="post" />
 
     <div>
-        <p v-if="!postLoading && posts.data.length < 1" class="mt-4 text-center">
+        <p v-if="posts.data.length < 1" class="mt-4 text-center">
             No posts found. 
             <router-link to="/create">Create new post</router-link>
         </p>
@@ -18,6 +20,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Post from '../../components/Post';
 
 export default {
@@ -27,36 +30,18 @@ export default {
         Post,
     },
 
-    data: () => {
-        return {
-            user: null,
-            posts: null,
-            userLoading: true,
-            postLoading: true
-        }
+    mounted() {
+        this.$store.dispatch('fetchUser', this.$route.params.userId);
+        this.$store.dispatch('fetchUserPosts', this.$route.params.userId);
     },
 
-    mounted() {
-        axios.get('/api/users/' + this.$route.params.userId)
-            .then((result) => {
-                this.user = result.data;
-            }).catch((err) => {
-                console.log('Unable to fetch user');
-            })
-            .finally(() => {
-                this.userLoading = false;
-            });
-        
-        axios.get('/api/users/' + this.$route.params.userId + '/posts')
-            .then((result) => {
-                this.posts = result.data;
-            })
-            .catch((err) => {
-                console.log('Unable to fetch posts');
-            })
-            .finally(() => {
-                this.postLoading = false;
-            });
+    computed: {
+        ...mapGetters({
+            user: 'user',
+            userStatus: 'userStatus',
+            posts: 'posts',
+            postsStatus: 'postsStatus',
+        })
     }
 }
 </script>
